@@ -1,0 +1,35 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      py:strip="True">
+  <form method="post" action="${action}">
+  <center>    <b>Change Project for ticket:</b>
+      <p>Customer: 
+        <select name="customerId" id="p_customerId">
+          <py:for each="cust in customers">
+            <py:choose test="">
+              <py:when test="(cust.id == t_project.customerId)">
+                <option value="$cust.id" selected="">$cust.name</option>
+              </py:when>
+              <py:otherwise>
+                <option value="$cust.id">$cust.name</option>
+              </py:otherwise>
+            </py:choose>
+          </py:for>
+        </select>
+        <br/>
+        <select name="projectId" id="p_projectId">
+        </select>
+      </p>
+        </center>
+    <table width="100%">
+    <tr>
+    <td><input type="submit" name="update" value="Submit Change"/></td>
+    <td align="right"><a href="$p_base_url/">PROJECTS</a></td>
+     </tr>
+    </table>
+  </form>
+<script type="text/javascript">
+  var ticket_d = $ticket_dictionary;
+</script>
+</html>
+

@@ -1,0 +1,39 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="layout.html" />
+  <head>
+    <title>Edit Customer</title>
+  </head>
+
+  <body>
+    <div id="ctxtnav" class="nav">
+    <ul> 
+      <li class="first"><a href="$c_base_url/">Customers</a></li>
+      <li class="last"><a href="$p_base_url/">Projects</a></li>
+    </ul>
+    </div>
+
+  <h1>Customer: $customer.name</h1>
+
+<form method="POST" action="$c_base_url/edit/$customer.id">
+<input type="hidden" name="c_id" value="$customer.id"/>
+<input type="hidden" name="orig_url" value="$orig_url"/>
+<table>
+<p> </p>
+<tr>
+  <th>Name</th><th>Description</th>
+</tr>
+<tr>
+<td><input name="c_name" type="text" value="$customer.name" /></td>
+<td><input name="c_description" type="text" value="$customer.data" size="45" /></td>
+<td><input type="submit" value="Update" name="Update"/></td>
+</tr>
+</table>
+</form>
+
+</body>
+</html>

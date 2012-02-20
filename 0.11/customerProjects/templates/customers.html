@@ -1,0 +1,65 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="layout.html" />
+  <head>
+    <title>Customers</title>
+  </head>
+
+  <body>
+    <div id="ctxtnav" class="nav">
+    <ul>
+      <li class="first"><a href="$c_base_url/">Customers</a></li>
+      <li class="last"><a href="$p_base_url/">Projects</a></li>
+    </ul>
+    </div>
+
+<h1>Customers</h1>
+
+<table id="customer_1">
+    <thead>
+        <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Projects</th>
+                <th>Tickets</th>
+<py:if test="edit">
+                <th>Actions</th>
+</py:if>
+        </tr>
+    </thead>
+    <tbody py:for="cust in customers">
+       <tr>
+         <td class="odd">$cust.name</td>
+         <td class="odd">$cust.data</td>
+         <td class="odd"><a href="$c_base_url/projects/$cust.id">Projects</a> [&nbsp;$cust.projectCount&nbsp;]</td>
+         <td class="odd"><a href="$c_base_url/tickets/$cust.id">Tickets</a></td>
+<py:if test="edit">
+         <td class="odd" align="center"><a href="$c_base_url/edit/$cust.id">edit</a></td>
+</py:if>
+       </tr>
+      </tbody>
+</table>
+
+<py:if test="edit">
+  <h2>Add new customer</h2>
+  <form name="c_update" method="POST" action="$c_base_url/add">
+  <table>
+  <p> </p>
+  <tr>
+    <th>Name</th><th>Description</th>
+  </tr>
+  <tr>
+  <td><input name="c_name" type="text" value="" /></td>
+  <td><input name="c_description" size="45" type="text" value="" /></td>
+  <td><input type="submit" value="add" name="add"/></td>
+  </tr>
+  </table>
+  </form>
+</py:if>
+
+  </body>
+</html>

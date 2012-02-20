@@ -1,0 +1,71 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="layout.html" />
+  <head>
+    <title>Edit Project</title>
+  </head>
+
+  <body>
+    <div id="ctxtnav" class="nav">
+    <ul> 
+      <li class="first"><a href="$c_base_url/">Customers</a></li>
+      <li class="last"><a href="$p_base_url/">Projects</a></li>
+    </ul>
+    </div>
+
+  <h1>Project: $project.name</h1>
+
+<form method="POST" action="$p_base_url/edit/$project.id">
+<input type="hidden" name="p_id" value="$project.id"/>
+<input type="hidden" name="orig_url" value="$orig_url"/>
+<table>
+<p> </p>
+<tr>
+  <th>Options</th><th>Name</th><th>Description</th><th>Customer</th><th>Parent Project</th><th>Budgeted Time</th>
+</tr>
+<tr>
+<td class="e_checks">
+  <input type="checkbox" name="p_active" checked="${project.active or None}" /> Active<br/>
+  <input type="checkbox" name="p_workon" checked="${project.workon or None}" /> Ticketable
+</td>
+<td><input name="p_name" type="text" value="$project.name" /></td>
+<td><input name="p_description" type="text" size="45" value="$project.data" /></td>
+<td>
+<select name="p_customerId">
+      <option value="$project.customerId">$project.customerName</option>
+   </select> 
+</td>
+<td>
+<select name="p_projectId">
+    <option value="0">none</option>
+    <py:for each="proj in projects">
+         <py:choose test="">
+             <py:when test="(proj.id == project.parentId)">
+                 <option value="$proj.id" selected="" >$proj.name</option>
+             </py:when>
+             <py:when test="(proj.id == project.id)">
+                  <!-- cannot be own parent -->
+             </py:when>
+             <py:otherwise>
+                <py:choose test="">
+                    <py:when test="proj.active">
+                        <option value="$proj.id">$proj.name</option>
+                    </py:when>
+                </py:choose>
+             </py:otherwise>
+         </py:choose>
+    </py:for>
+</select>
+</td>
+<td><input name="p_budget" type="text" value="$project.budget"/></td>
+<td><input type="submit" value="Update" name="Update"/></td>
+</tr>
+</table>
+</form>
+
+</body>
+</html>

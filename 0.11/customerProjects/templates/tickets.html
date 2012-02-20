@@ -1,0 +1,45 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="layout.html" />
+  <head>
+    <title>Tickets</title>
+  </head>
+
+  <body>
+    <div id="ctxtnav" class="nav">
+    <ul> 
+      <li class="first"><a href="$c_base_url/">Customers</a></li>
+      <li class="last"><a href="$p_base_url/">Projects</a></li>
+    </ul>
+    </div>
+
+
+  <h1>Project: $main_project.name</h1>
+  <h2>Customer: <a href="$c_base_url/projects/$main_project.customerId">$main_project.customerName</a></h2>
+  <h2> Tickets:</h2>
+
+<table id="tickets">
+    <thead>
+        <tr>
+                <th>ID</th>
+                <th>Type</th>
+                <th>Summary</th>
+                <th>Ticket Time</th>
+        </tr>
+    </thead>
+    <tbody py:for="ticket in tickets">
+       <tr>
+         <td class="odd"><a href="$t_base_url/$ticket.id">$ticket.id</a></td>
+         <td class="odd">$ticket.type</td>
+         <td class="odd">$ticket.summary</td>
+         <td class="odd" align="center">$ticket.totaltime</td>
+        </tr>
+      </tbody>
+</table>
+
+</body>
+</html>

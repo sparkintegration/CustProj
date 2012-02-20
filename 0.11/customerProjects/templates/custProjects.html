@@ -1,0 +1,114 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="layout.html" />
+  <head>
+    <title>Customer Projects</title>
+  </head>
+
+  <body>
+    <div id="ctxtnav" class="nav">
+    <ul> 
+      <li class="first"><a href="$c_base_url/">Customers</a></li>
+      <li class="last"><a href="$p_base_url/">Projects</a></li>
+    </ul>
+    </div>
+
+  <h1>Customer: $customer.name</h1>
+  <h2> Projects:</h2>
+
+<form name="p_update" method="POST" action="$p_base_url/update">
+<table id="projects">
+    <thead>
+        <tr>
+                <th>Options</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Parent Project</th>
+                <th>Budgeted Time</th>
+                <th>Total Time</th>
+                <th>Tickets</th>
+<py:if test="edit">
+                <th>Actions</th>
+</py:if>
+        </tr>
+    </thead>
+    <tbody>
+    <py:for each="proj in projects">
+       <tr class="${proj['class']}" style="${proj['style']}">
+         <td class="checks">
+           <input type="checkbox" name="active_${proj['id']}" checked="${proj.active or None}" /> Active<br/>
+           <input type="checkbox" name="workon_${proj['id']}" checked="${proj.workon or None}" /> Ticketable
+           <input type="hidden" name="ids" value="${proj['id']}"/>
+         </td>
+         <td class="odd"><a href="$p_base_url/$proj.id">$proj.name</a></td>
+         <td class="odd">$proj.data</td>
+         <py:choose test="">
+             <py:when test="proj.parentId">
+                 <td class="odd"><a href="$p_base_url/$proj.parentId">$proj.parentName</a></td>
+             </py:when>
+             <py:otherwise>
+                 <td class="odd">$proj.parentName</td>
+             </py:otherwise>
+         </py:choose>
+         <td class="odd">$proj.budget</td>
+         <td class="odd">$proj.totalTime</td>
+         <td class="odd"><a href="$p_base_url/tickets/$proj.id">Tickets</a> [&nbsp;$proj.ticketCount&nbsp;]</td>
+         <py:if test="edit">
+           <td class="odd" align="center"><a href="$p_base_url/edit/$proj.id">edit</a></td>
+         </py:if>
+        </tr>
+     </py:for>
+     </tbody>
+     <tfoot>
+     <tr style="background-color:#FFFFFF;">
+      <py:if test="edit">
+       <td><input type="submit" value="Submit Changes" name="Submit Changes"/></td>
+       <td></td>
+      </py:if>
+      <td><a href="#" class="inactive">Show|Hide Inactive ($inactive_count)</a></td>
+     </tr>
+    </tfoot>
+</table>
+</form>
+
+<py:if test="edit">
+
+<h2>Add new projects for customer: $customer.name</h2>
+<form method="POST" action="$p_base_url/add">
+<table>
+<p> </p>
+<tr>
+  <th>Name</th><th>Description</th><th>Customer</th><th>Parent Project</th><th>Time Budget</th>
+</tr>
+<tr>
+<td><input name="p_name" type="text" value="" /></td>
+<td><input name="p_description" size="45" type="text" value="" /></td>
+<td>
+<select class="c_select" id="p_customerId" no_dis="1" name="p_customerId">
+      <option value="$customer.id">$customer.name</option>
+   </select> 
+</td>
+<td>
+<select name="p_projectId" class="p_select" id="p_projectId">
+    <option value="0">none</option>
+<!--    <py:for each="proj in projects">
+      <py:if test="proj.active">
+         <option value="$proj.id">$proj.name</option>
+      </py:if>
+    </py:for>
+-->
+</select>
+</td>
+<td><input name="p_budget" type="text" value="0" /></td>
+<td><input type="submit" value="Add" name="Add"/></td>
+</tr>
+</table>
+</form>
+</py:if>
+<p> </p>
+</body>
+</html>
